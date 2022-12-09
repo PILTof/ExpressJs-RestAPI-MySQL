@@ -8,7 +8,7 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-	<h1 style="text-align: center; padding-top: 35px;">RestAPI - MySQL - Express</h1>
-	
+	<h1 class="main-title">RestAPI - MySQL - Express</h1>
+
 </body>
 </html>
