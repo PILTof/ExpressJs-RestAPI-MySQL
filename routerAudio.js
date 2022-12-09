@@ -1,7 +1,6 @@
 import {json, Router} from 'express'
 import PostController from './PostController.js'
 import multer from 'multer'
-import routerMain from './RouterMain.js'
 
 const routerAudio = new Router()
 
@@ -18,9 +17,13 @@ const sql = `create table if not exists ${schema_name}(
 
 
 // Фильтр медиа
+
+// Обязательно указывать поля как SQL запросе
 const fields = [
 	{name : 'name'}
 ]
+
+// Определение места хранения и имени файлов.
 const storage = multer.diskStorage({
 	destination: (req, file, cb) => {
 		cb(null, 'upload/audio')
@@ -29,6 +32,8 @@ const storage = multer.diskStorage({
 		cb(null, file.originalname + '-' + Date.now())
 	}
 })
+
+// Фильтр файлов по mimetype
 const filter = (req, file, cb) => {
 	if(file.mimetype === "audio/mp4" || 
 	file.mimetype === "audio/mpeg" || 

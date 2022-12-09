@@ -32,9 +32,7 @@ class PostMain {
 				console.log("Подключение прошло успешно");
 			}
 		})
-		
 	} 
-
 	// SQL модель запроса для добавления строк
 	post_insert(keys, bodys) {
 		let ret = null;
@@ -47,9 +45,6 @@ class PostMain {
 		ret = 	`INSERT INTO ${this.schema_name}(${keys.join(', ')}) VALUES(${bodys_after.join(', ')})`;
 		console.log(ret);
 
-		
-		
-		
 		// Оюработчик ошибок, сравнивает данные из SQL схемы и вводимые в POST ключи.
 		body_arr.forEach(element => {
 				if(element.includes('NOT NULL')) {
@@ -75,13 +70,10 @@ class PostMain {
 				}
 			}
 		)
-
-
-		
 		return ret
 	}	
 	
-	// Схема создания таблицы
+	// Схема создания таблицы поумолчанию
 	post(schema_name) {
 		return `create table if not exists ${schema_name}(
 		Id INT AUTO_INCREMENT PRIMARY KEY,
@@ -91,11 +83,6 @@ class PostMain {
 		picture varchar(255)
 	)`;
 	}
-
-
-	
-
-
 
 	// Создание таблицы
 	createSchema(schema_name, sql = this.post(this.schema_name)) {
@@ -107,8 +94,6 @@ class PostMain {
 	}
 
 
-
-	
 	// Фунция добавления данных строк
 	post_table_w (body, files) {
 		const {author, title, content, picture} = body
@@ -154,7 +139,6 @@ class PostMain {
 			)
 	
 		})
-		
 	}
 	// Функция для получения данных строк по ID
 	getOne_w(id){
@@ -187,15 +171,12 @@ class PostMain {
 				if(key !== `id`) {
 					sql.push(`UPDATE ${this.schema_name} SET ${key} = '${body[key]}' WHERE Id=${id}`) 
 				}
-				// console.log(key);
-				// console.log(body[key]);
 			}
 			if(files) {
 				files.forEach(element => {
 					sql.push(`UPDATE ${this.schema_name} SET ${element[0].fieldname} = '${element[0].filename}' WHERE Id=${id}`) 
 				});
 			}
-
 			sql.forEach(element => {
 				this.connection.query(element, (err, res) => {
 					// if(err) console.log(err);
@@ -223,17 +204,14 @@ class PostMain {
 	}
 
 
-// Обертки для функций
 
+// Обертки для функций
 	post_table(req, res) {
 		console.log(req.body);
 		let files = [];
 		for(let key in req.files) {
 			files.push(req.files[key]);
 		}
-		// console.log(files);
-		
-
 		return this.post_table_w(req.body, files)
 		.then(resolve => {
 			res.status(200)
